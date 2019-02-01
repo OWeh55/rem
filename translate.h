@@ -22,9 +22,9 @@ public:
         trmap[patternp[i]] = patternp[i + 1];
       }
   }
-  
+
   virtual ~Translate() {}
-  
+
   virtual void executeOne(const std::string& src,
                           std::vector<std::string>& dst) const;
 

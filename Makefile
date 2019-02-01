@@ -25,13 +25,19 @@ test: rem rtest
 regexp_test: regexp_test.cpp regexp.o regexp_before.o regexp_after.o
 	g++ $(COPT) -o regexp_test regexp_test.cpp regexp.o regexp_before.o regexp_after.o
 
-clean:
+clean_files:
 	rm -f *.o rem *.orig *~
 
+clean: clean_files dep
+
+ASTYLE := astyle
+# format options for beautifier
+ASTYLE_OPT = --style=gnu --unpad-paren --pad-header --pad-oper --indent-namespaces --indent=spaces=2 --convert-tabs --align-pointer=type --align-reference=type
+
 format:
-	astyle *.cpp
-	astyle *.h
-	astyle *.ag
+	$(ASTYLE) $(ASTYLE_OPT) *.cpp      
+	$(ASTYLE) $(ASTYLE_OPT) *.h
+	$(ASTYLE) $(ASTYLE_OPT) *.ag
 
 dep:
 	-rm depend 
