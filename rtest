@@ -1,5 +1,6 @@
 #!/bin/bash
-cat > rtest.txt <<EOF
+RTEST="testfile_for_test_of_rem"
+cat > $RTEST <<EOF
 Aller Anfang ist schwer.
 Im Wald fahren die Straßenbahnen schneller als bei Regen
 7 zwerge in 29 Märchen sind 203 kleine Wesen
@@ -8,24 +9,25 @@ In der Nacht ist der Mensch nicht gern alleine.
 EOF
 #V="-v"
 echo "-- digits einmal --------"
-rem $V -f rtest.txt "m:[[:digit:]]+"
+rem $V -f $RTEST "m:[[:digit:]]+"
 echo "-- digits alle ----------"
-rem $V -d, -f rtest.txt "M:[[:digit:]]+"
+rem $V -d, -f $RTEST "M:[[:digit:]]+"
 echo "--- in oder im  alle ----"
-rem $V -d- -f rtest.txt "M:i[nm]"
+rem $V -d- -f $RTEST "M:i[nm]"
 echo "--- in oder im alle ignore case -----"
-rem $V -i -d- -f rtest.txt "M:i[mn]"
+rem $V -i -d- -f $RTEST "M:i[mn]"
 echo "--- zeilenweise 'vor klein' ---------"
-rem $V -l -f rtest.txt "b:klein"
+rem $V -l -f $RTEST "b:klein"
 echo "--- zeilenweise 'nach sind'----------"
-rem $V -l -f rtest.txt "a:sind"
+rem $V -l -f $RTEST "a:sind"
 echo "--- zeilenweise 'nach sind ' und 'vor klein' ----"
-rem $V -l -f rtest.txt "a:sind" "b:klein"
+rem $V -l -f $RTEST "a:sind" "b:klein"
 echo "--- ... mit trimmen -----------------"
-rem $V -l -f rtest.txt "a:sind" "b:klein" "t:"
+rem $V -l -f $RTEST "a:sind" "b:klein" "t:"
 echo "--- vor el, nach Holz ---------------"
-rem $V -l -f rtest.txt "a:Holz" "b:el"
+rem $V -l -f $RTEST "a:Holz" "b:el"
 echo "--- zeilenweise, exclude im, ignore case ---------------"
-rem $V -l -i -f rtest.txt "x:im" 
+rem $V -l -i -f $RTEST "x:im" 
 echo "--- translate i -> a, a -> i ----"
-rem $V -l -f rtest.txt "T:iaaiAIIA"
+rem $V -l -f $RTEST "T:iaaiAIIA"
+rm $RTEST
