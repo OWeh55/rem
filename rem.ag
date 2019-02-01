@@ -1,0 +1,189 @@
+#include <cstdlib>
+
+#include <string>
+#include <fstream>
+#include <iostream>
+
+#include "filtercascade.h"
+#include "filter.h"
+#include "regexp.h"
+#include "regexp_match.h"
+#include "regexp_before.h"
+#include "regexp_after.h"
+#include "regexp_exclude.h"
+#include "trim.h"
+#include "translate.h"
+
+using namespace std;
+
+bool newline = false;
+
+/*AppGen
+  %%  Beschreibung des Programmes:
+  prog: Filterung von Text
+  %% Beschreibung Parameter
+  % symbolischerName, Art, Typ,   Variablenname, Erklärung, Default-Wert
+  para: filter, required, list, filterStrings, Filterdefinitionen
+  %% Beschreibung der Optionen
+  % kurz-Option, lang-Option, Typ, Variablenname, Erklärung, Default-Wert
+  opt: f, file, string, filename, Eingabe-Datei,"-"
+  opt: d, delimiter, string, delimiter, Trennzeichen in Ausgabe, "\n"
+  opt: l, linewise, void, linewise, Zeilenweise Verarbeitung, false
+  opt: i, ignorecase, void, ignorecase, Gross-/Klein-Schreibung ignorieren, false
+  opt: v, verbose,  void,   verbose,  Ausführliche Meldungen,  false
+  opt: h, help,   usage,   ,    Hilfe
+  opt: H, filterhelp, Usage, , Hilfe zu Filtern
+: Filter werden durch jeweils eine Zeichenkette beschrieben.
+: Damit rem diese als _einen_ Parameter erkennt, muss die Zeichenkette in
+: Anführungsstriche gesetzt werden, falls Leerzeichen vorkommen.
+: Je nach verwendeten Zeichen ist es notwendig, die Shell durch Escapen
+: an der Ersetzung zu hindern
+:
+: Filter:
+: *  reguläre Ausdrücke -  m:<regexp> oder <regexp>
+: *  vor regulärem Ausdruck - b:<regexp>
+: *  nach regulärem Ausdruck - a:<regexp>
+: *  beidseitig beschneiden - t:<charset>
+: *  Zeichenersetzung - T:<pairs>
+  AppGen*/
+
+/*AppGen:Global*/
+
+void readfile(const string& filename, bool oneLine, vector<string>& data)
+{
+  data.clear();
+  if (oneLine)
+    data.push_back("");
+
+  if (filename == "-")
+    {
+      string line;
+      while (getline(cin, line))
+        {
+          if (oneLine)
+            data[0] += line + " ";
+          else
+            data.push_back(line);
+        }
+    }
+  else
+    {
+      ifstream ifile(filename.c_str());
+      if (!ifile.good())
+        {
+          throw "Can't open file \"" + filename + "\"";
+        }
+      string line;
+      while (getline(ifile, line))
+        {
+          if (oneLine)
+            data[0] += line + " ";
+          else
+            data.push_back(line);
+        }
+    }
+}
+
+/*AppGen:Main*/
+int main(int argc, char* argv[])
+{
+  /*AppGen:MainEnd*/
+  try
+    {
+      // check parameters and options
+      if (filterStrings.empty())
+        {
+          throw string("No filters defined");
+        }
+
+      int cflags = 0;
+      if (ignorecase)
+        {
+          cflags |= REG_ICASE;
+          if (verbose)
+            cerr << "Ignoring case" << endl;
+        }
+
+      if (verbose)
+        cerr << "Creating Filters" << endl;
+
+      FilterCascade fc;
+      for (unsigned int i = 0; i < filterStrings.size(); ++i)
+        {
+          string& fs = filterStrings[i];
+          if (fs.size() < 2)
+            throw string("Invalid filter string ") + fs;
+          if (fs[1] != ':') // default filter is "match"
+            fs = "m:" + fs;
+          char select = fs[0];
+          string pattern = fs.substr(2);
+          if (verbose)
+            cerr << "   " << select << " - " << pattern << endl;
+          switch (select)
+            {
+            case 'm':
+              fc.append(new RegExpMatch(pattern, cflags, false));
+              break;
+            case 'M':
+              fc.append(new RegExpMatch(pattern, cflags, true));
+              break;
+            case 'b':
+              fc.append(new RegExpBefore(pattern, cflags));
+              break;
+            case 'a':
+              fc.append(new RegExpAfter(pattern, cflags));
+              break;
+            case 'x':
+              fc.append(new RegExpExclude(pattern, cflags));
+              break;
+            case 't':
+              fc.append(new Trim(pattern));
+              break;
+            case 'T':
+              fc.append(new Translate(pattern));
+              break;
+            default:
+              throw string("Unknown filter: ") + fs;
+            }
+
+        }
+      if (verbose)
+        fc.print(cout);
+
+      if (verbose)
+        cerr << "Reading " << filename << endl;
+
+      vector<string> text;
+      readfile(filename, !linewise, text);
+
+      if (verbose)
+        cerr << "Read " << text.size() << " strings" << endl;
+
+      vector<string> result;
+      for (unsigned int i = 0; i < text.size(); ++i)
+        {
+          vector<string> lineresult;
+          fc.execute(text[i], lineresult);
+          for (unsigned int k = 0; k < lineresult.size(); ++k)
+            {
+              result.push_back(lineresult[k]);
+            }
+        }
+
+      if (verbose)
+        cerr << result.size() << " result strings" << endl;
+
+      if (result.size() > 0)
+        {
+          cout << result[0];
+          for (unsigned int i = 1; i < result.size(); ++i)
+            cout << delimiter << result[i];
+        }
+      cout << endl;
+    }
+  catch (const string& msg)
+    {
+      cerr << "Exception: " << msg << endl;
+    }
+  return 0;
+}
