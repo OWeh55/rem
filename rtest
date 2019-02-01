@@ -1,0 +1,31 @@
+#!/bin/bash
+cat > rtest.txt <<EOF
+Aller Anfang ist schwer.
+Im Wald fahren die Straßenbahnen schneller als bei Regen
+7 zwerge in 29 Märchen sind 203 kleine Wesen
+Im Gasthaus "Zum Holzmichel" gibts das Bier für 3 Euro und 50 Cent.
+In der Nacht ist der Mensch nicht gern alleine.
+EOF
+#V="-v"
+echo "-- digits einmal --------"
+rem $V -f rtest.txt "m:[[:digit:]]+"
+echo "-- digits alle ----------"
+rem $V -d, -f rtest.txt "M:[[:digit:]]+"
+echo "--- in oder im  alle ----"
+rem $V -d- -f rtest.txt "M:i[nm]"
+echo "--- in oder im alle ignore case -----"
+rem $V -i -d- -f rtest.txt "M:i[mn]"
+echo "--- zeilenweise 'vor klein' ---------"
+rem $V -l -f rtest.txt "b:klein"
+echo "--- zeilenweise 'nach sind'----------"
+rem $V -l -f rtest.txt "a:sind"
+echo "--- zeilenweise 'nach sind ' und 'vor klein' ----"
+rem $V -l -f rtest.txt "a:sind" "b:klein"
+echo "--- ... mit trimmen -----------------"
+rem $V -l -f rtest.txt "a:sind" "b:klein" "t:"
+echo "--- vor el, nach Holz ---------------"
+rem $V -l -f rtest.txt "a:Holz" "b:el"
+echo "--- zeilenweise, exclude im, ignore case ---------------"
+rem $V -l -i -f rtest.txt "x:im" 
+echo "--- translate i -> a, a -> i ----"
+rem $V -l -f rtest.txt "T:iaaiAIIA"
