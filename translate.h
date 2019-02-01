@@ -15,17 +15,16 @@ class Translate: public Filter
 public:
   Translate(const std::string& patternp): Filter("T:" + patternp)
   {
-    if ((patternp.size() & 1) != 0)
+    if ((patternp.size() % 2) != 0)
       throw std::string("Wrong translation list ") + patternp;
     for (unsigned int i = 0; i < patternp.size(); i += 2)
       {
-        std::cout << patternp[i] << " --> " << patternp[i + 1] << std::endl;
         trmap[patternp[i]] = patternp[i + 1];
       }
   }
-
+  
   virtual ~Translate() {}
-
+  
   virtual void executeOne(const std::string& src,
                           std::vector<std::string>& dst) const;
 

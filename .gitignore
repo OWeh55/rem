@@ -6,7 +6,6 @@
 !*/
 # ignore generated files
 *.o
-rtest.txt
 # ignore backups and temporary files
 *~
 *.orig
