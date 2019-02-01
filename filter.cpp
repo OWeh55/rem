@@ -84,6 +84,11 @@ std::string Filter::expandCharSet(const std::string& p, bool withNewLine)
                 result += cc;
             }
         }
+        break;
+        default:
+          result += c;
+          pos++;
+          break;
         }
     }
   return result;

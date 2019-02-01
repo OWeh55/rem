@@ -181,6 +181,10 @@ int main(int argc, char* argv[])
         }
       cout << endl;
     }
+  catch (const char* msg)
+    {
+      cerr << "Exception: " << msg << endl;
+    }
   catch (const string& msg)
     {
       cerr << "Exception: " << msg << endl;
