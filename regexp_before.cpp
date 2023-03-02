@@ -16,4 +16,6 @@ void RegExpBefore::executeOne(const std::string& src,
       before.rm_eo = matches[0].rm_so;
       dst.push_back(extract(src, before));
     }
+  else
+    throw "before: no match for pattern " + pattern;
 }

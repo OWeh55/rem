@@ -16,4 +16,6 @@ void RegExpAfter::executeOne(const std::string& src,
       after.rm_eo = src.size();
       dst.push_back(extract(src, after));
     }
+  else
+    throw "after: no match for regexp " + pattern;
 }

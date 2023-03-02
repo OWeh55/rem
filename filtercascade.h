@@ -43,7 +43,7 @@ public:
 
   virtual void print(std::ostream& os) const
   {
-    for (auto& x : filters)
+    for (auto x : filters)
       x->print(os);
   }
 protected:

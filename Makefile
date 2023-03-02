@@ -1,5 +1,5 @@
 #
-COPT= -O3 -Wall -g 
+COPT= -O3 -Wall -g --std=c++11
 #
 %.cpp:%.ag
 	AppGen $*.ag $*.cpp

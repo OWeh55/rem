@@ -26,9 +26,10 @@ void RegExp::getMatches(const std::string& src, std::vector<regmatch_t>& matches
   while (!done && first < (int)src.size() &&
          regexec(&preg, src.substr(first).c_str(), 10, pmatch, 0) == 0)
     {
+      /*
       if ((pmatch[0].rm_eo - pmatch[0].rm_so) == 0)
         throw string("Empty string matches ") + name;
-
+      */
       int results = 0; // number of results
       while (results < maxMatchNr && pmatch[results].rm_so != -1)
         results++;
