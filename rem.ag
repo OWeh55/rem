@@ -61,7 +61,7 @@ void readfile(const string& filename, bool oneLine, vector<string>& data)
       while (getline(cin, line))
         {
           if (oneLine)
-            data[0] += line + " ";
+            data[0] += line + "\n";
           else
             data.push_back(line);
         }
@@ -77,7 +77,7 @@ void readfile(const string& filename, bool oneLine, vector<string>& data)
       while (getline(ifile, line))
         {
           if (oneLine)
-            data[0] += line + " ";
+            data[0] += line + "\n";
           else
             data.push_back(line);
         }

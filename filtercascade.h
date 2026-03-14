@@ -50,5 +50,4 @@ protected:
   std::vector<Filter*> filters;
 };
 
-
 #endif

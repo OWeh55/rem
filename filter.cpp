@@ -3,93 +3,59 @@
 #include <iostream>
 
 using namespace std;
+#include <string>
+#include <stdexcept>
+#include <algorithm>
 
-std::string Filter::expandCharSet(const std::string& p, bool withNewLine)
+/**
+ * Expandiert eine RegExp-Zeichenklasse wie "[a-zA-Z0-9]" in einen String
+ * mit allen enthaltenen Zeichen.
+ *
+ * Unterstützt:
+ *  - Bereiche wie a-z, A-Z, 0-9
+ *  - Einzelne Zeichen
+ *  - Optionale eckige Klammern
+ *
+ * Beispiele:
+ *  "[a-zA-Z]"  -> "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+ *  "[0-9]"     -> "0123456789"
+ *  "A-Fa-f0-9" -> "ABCDEFabcdef0123456789"
+ */
+
+std::string Filter::expandCharSet(const std::string& pattern)
 {
-  // we "compile" pattern. pattern may describe chars by
-  // - char itself
-  // - char as escape sequence '\t', '\n'
-  // - charsets with [a-b]
-  // - special charsets with [[digits]]
-  int pos = 0;
-  int size = p.size();
-  int last = size - 1;
-  string result;
-  while (pos < size)
+  // Eckige Klammern entfernen, falls vorhanden
+  std::string p = pattern;
+  if (p.size() >= 2 && p.front() == '[' && p.back() == ']')
+    p = p.substr(1, p.size() - 2);
+
+  std::string result;
+  size_t i = 0;
+
+  while (i < p.size())
     {
-      char c = p[pos];
-      switch (c)
+      // Bereich erkennen: X-Y  (mindestens 3 Zeichen übrig, mittleres ist '-')
+      if (i + 2 < p.size() && p[i + 1] == '-')
         {
-        case '\\': // escape sequences
-        {
-          if (pos == last) // as last char backslash respresents itself
-            {
-              result += '\\';
-              pos++;
-            }
-          else
-            {
-              char c2 = p[pos + 1];
-              switch (c2)
-                {
-                case 't':
-                  result += '\t';
-                  break;
-                case '\'':
-                  result += '\'';
-                  break;
-                case '\"':
-                  result += '\"';
-                  break;
-                case '\\':
-                  result += '\\';
-                  break;
-                case 'n':
-                {
-                  if (withNewLine)
-                    result += '\n';
-                  else
-                    throw "newline not allowed in charset";
-                }
-                break;
-                default:
-                  result += c2;
-                }
-              pos += 2;
-            }
+          unsigned char start = static_cast<unsigned char>(p[i]);
+          unsigned char end   = static_cast<unsigned char>(p[i + 2]);
+
+          if (start > end)
+            throw std::invalid_argument(
+              std::string("Ungültiger Bereich: ") + p[i] + "-" + p[i + 2]);
+
+          for (unsigned char c = start; c <= end; ++c)
+            result += static_cast<char>(c);
+
+          i += 3;
         }
-        break;
-        case '[':
+      // Literal '-' am Ende des Musters (kein Bereich möglich)
+      else
         {
-          pos++;
-          if (pos >= size) // as last char [ represents itself
-            result += '[';
-          else
-            {
-              char c1 = p[pos];
-              pos++;
-              if (pos >= size || p[pos] != '-')
-                throw "- in charset expected";
-              pos++;
-              if (pos >= size)
-                throw "second char in charset expected";
-              char c2 = p[pos];
-              pos++;
-              if (pos >= size || p[pos] != ']')
-                throw "] in charset expected";
-              pos++;
-              if (c1 > c2)
-                std::swap(c1, c2);
-              for (char cc = c1; cc <= c2; cc++)
-                result += cc;
-            }
-        }
-        break;
-        default:
-          result += c;
-          pos++;
-          break;
+          result += p[i];
+          ++i;
         }
     }
+
   return result;
 }

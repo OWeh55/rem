@@ -34,6 +34,7 @@ public:
         executeOne(src[i], dst);
       }
   }
+
   // apply filter to string generating new dst
   virtual void execute(const std::string& src,
                        std::vector<std::string>& dst) const
@@ -43,8 +44,7 @@ public:
   }
 
 protected:
-  std::string expandCharSet(const std::string& pattern, bool withNewLine = false);
-
+  std::string expandCharSet(const std::string& pattern);
 
   std::string name;
 };
