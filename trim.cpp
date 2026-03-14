@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void Trim::executeOne(const std::string& src, std::vector<std::string>& dst) const
+void Trim::execute(const std::string& src, std::string& dst) const
 {
   string newstring;
   int first = -1;
@@ -26,5 +26,5 @@ void Trim::executeOne(const std::string& src, std::vector<std::string>& dst) con
       if (last >= 0)
         newstring = src.substr(first, last - first + 1);
     }
-  dst.push_back(newstring);
+  dst = newstring;
 }

@@ -12,28 +12,14 @@
 class RegExpMatch: public RegExp
 {
 public:
-  RegExpMatch(const std::string& pattern, int cflagsp, bool all = false);
+  RegExpMatch(const std::string& pattern, int cflagsp):
+    RegExp('m', pattern, cflagsp) {}
 
-  virtual void executeOne(const std::string& src, std::vector<std::string>& dst) const;
+  virtual void execute(const std::string& src, std::string& dst) const;
 
   virtual ~RegExpMatch()
   {
-    //    regfree(&preg);
   }
 
-protected:
-  /*
-  virtual void getMatches(const std::string &src,
-                          std::vector<regmatch_t> &matches, bool all) const;
-
-  static std::string extract(const std::string &src, regmatch_t pmatch);
-
-  static std::string regexError(const regex_t &preg, int rc)
-  {
-    char errorBuffer[5000];
-    regerror(rc, &preg, errorBuffer, 5000);
-    return errorBuffer;
-  }
-  */
 };
 #endif

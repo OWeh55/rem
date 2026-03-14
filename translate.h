@@ -25,8 +25,8 @@ public:
 
   virtual ~Translate() {}
 
-  virtual void executeOne(const std::string& src,
-                          std::vector<std::string>& dst) const;
+  virtual void execute(const std::string& src,
+                       std::string& dst) const;
 
 private:
   std::map<char, char> trmap;

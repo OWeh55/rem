@@ -15,10 +15,10 @@ public:
   }
 
   virtual void execute(const std::string& srcstring,
-                       std::vector<std::string>& dst) const
+                       std::string& dst) const
   {
-    std::vector<std::string> src;
-    src.push_back(srcstring);
+    std::string src = srcstring;
+
     for (unsigned int i = 0; i < filters.size(); ++i)
       {
 #ifdef DEBUG

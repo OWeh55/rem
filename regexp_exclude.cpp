@@ -4,13 +4,12 @@
 
 using namespace std;
 
-void RegExpExclude::executeOne(const std::string& src,
-                               std::vector<std::string>& dst) const
+void RegExpExclude::execute(const std::string& src,
+                            std::string& dst) const
 {
-  vector<regmatch_t> matches;
-  getMatches(src, matches, false);
-  if (matches.empty()) // if no match
+  dst = "";
+  if (!re.setSource(src))
     {
-      dst.push_back(src);
+      dst = src;
     }
 }

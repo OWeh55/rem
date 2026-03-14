@@ -122,10 +122,7 @@ int main(int argc, char* argv[])
           switch (select)
             {
             case 'm':
-              fc.append(new RegExpMatch(pattern, cflags, false));
-              break;
-            case 'M':
-              fc.append(new RegExpMatch(pattern, cflags, true));
+              fc.append(new RegExpMatch(pattern, cflags));
               break;
             case 'b':
               fc.append(new RegExpBefore(pattern, cflags));
@@ -162,12 +159,9 @@ int main(int argc, char* argv[])
       vector<string> result;
       for (unsigned int i = 0; i < text.size(); ++i)
         {
-          vector<string> lineresult;
+          string lineresult;
           fc.execute(text[i], lineresult);
-          for (unsigned int k = 0; k < lineresult.size(); ++k)
-            {
-              result.push_back(lineresult[k]);
-            }
+          result.push_back(lineresult);
         }
 
       if (verbose)
