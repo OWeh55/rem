@@ -22,4 +22,21 @@ public:
   }
 
 };
+
+class RegExpMatchMulti: public RegExp
+{
+public:
+  RegExpMatchMulti(const std::string& pattern, int cflagsp, const std::string& del):
+    RegExp('M', pattern, cflagsp), del(del) {}
+
+  virtual void execute(const std::string& src, std::string& dst) const;
+
+  virtual ~RegExpMatchMulti()
+  {
+  }
+
+private:
+  std::string del;
+
+};
 #endif

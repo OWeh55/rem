@@ -28,6 +28,7 @@ bool newline = false;
   % kurz-Option, lang-Option, Typ, Variablenname, Erklärung, Default-Wert
   opt: f, file, string, filename, Eingabe-Datei,"-"
   opt: d, delimiter, string, delimiter, Trennzeichen in Ausgabe, "\n"
+  opt: D, subdelimiter, string, subdel, Trennzeichen innerhalb der Zeile, ":"
   opt: l, linewise, void, linewise, Zeilenweise Verarbeitung, false
   opt: i, ignorecase, void, ignorecase, Gross-/Klein-Schreibung ignorieren, false
   opt: v, verbose,  void,   verbose,  Ausführliche Meldungen,  false
@@ -123,6 +124,9 @@ int main(int argc, char* argv[])
             {
             case 'm':
               fc.append(new RegExpMatch(pattern, cflags));
+              break;
+            case 'M':
+              fc.append(new RegExpMatchMulti(pattern, cflags, subdel));
               break;
             case 'b':
               fc.append(new RegExpBefore(pattern, cflags));
