@@ -31,6 +31,7 @@ bool newline = false;
   opt: D, subdelimiter, string, subdel, Trennzeichen innerhalb der Zeile, ":"
   opt: l, linewise, void, linewise, Zeilenweise Verarbeitung, false
   opt: i, ignorecase, void, ignorecase, Gross-/Klein-Schreibung ignorieren, false
+  opt: e, noempty, void, noempty, keine leeren Resultatzeilen, false
   opt: v, verbose,  void,   verbose,  Ausführliche Meldungen,  false
   opt: h, help,   usage,   ,    Hilfe
   opt: H, filterhelp, Usage, , Hilfe zu Filtern
@@ -42,8 +43,11 @@ bool newline = false;
 :
 : Filter:
 : *  reguläre Ausdrücke -  m:<regexp> oder <regexp>
+: *  multiple reguläre Ausdrücke -  M:<regexp>
+:    wenn der Leerstring matched ist der Gesamtausdruck leer
 : *  vor regulärem Ausdruck - b:<regexp>
 : *  nach regulärem Ausdruck - a:<regexp>
+: *  ohne regulären Ausdruck - x:<regexp>
 : *  beidseitig beschneiden - t:<charset>
 : *  Zeichenersetzung - T:<pairs>
   AppGen*/
@@ -165,7 +169,8 @@ int main(int argc, char* argv[])
         {
           string lineresult;
           fc.execute(text[i], lineresult);
-          result.push_back(lineresult);
+          if (!(lineresult.empty() && noempty))
+            result.push_back(lineresult);
         }
 
       if (verbose)

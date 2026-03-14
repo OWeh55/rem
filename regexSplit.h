@@ -31,8 +31,7 @@ public:
       {
         char errbuf[256];
         regerror(rc, &preg_, errbuf, sizeof(errbuf));
-        throw std::invalid_argument(
-          "RegexSplit: invalid pattern \"" + pattern_ + "\": " + errbuf);
+        throw ("RegexSplit: invalid pattern \"" + pattern_ + "\": " + errbuf);
       }
   }
 
