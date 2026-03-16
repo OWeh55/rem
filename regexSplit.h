@@ -24,20 +24,20 @@ class RegexSplit
 {
 public:
   explicit RegexSplit(const std::string& pattern, int cflags = 0)
-    : pattern_(pattern), matched_(false), ss_(0), se_(0)
+    : pattern(pattern), matched(false), ss(0), se(0)
   {
-    int rc = regcomp(&preg_, pattern_.c_str(), cflags | REG_EXTENDED);
+    int rc = regcomp(&preg, pattern.c_str(), cflags | REG_EXTENDED);
     if (rc != 0)
       {
         char errbuf[256];
-        regerror(rc, &preg_, errbuf, sizeof(errbuf));
-        throw ("RegexSplit: invalid pattern \"" + pattern_ + "\": " + errbuf);
+        regerror(rc, &preg, errbuf, sizeof(errbuf));
+        throw ("RegexSplit: invalid pattern \"" + pattern + "\": " + errbuf);
       }
   }
 
   ~RegexSplit()
   {
-    regfree(&preg_);
+    regfree(&preg);
   }
 
   RegexSplit(const RegexSplit&)            = delete;
@@ -48,45 +48,45 @@ public:
   /** Sucht das Muster im String. @return true bei Treffer. */
   bool setSource(const std::string& s)
   {
-    source_  = s;
-    matched_ = false;
+    source  = s;
+    matched = false;
 
     regmatch_t pm;
-    if (regexec(&preg_, source_.c_str(), 1, &pm, 0) == 0)
+    if (regexec(&preg, source.c_str(), 1, &pm, 0) == 0)
       {
-        ss_      = pm.rm_so;
-        se_      = pm.rm_eo;
-        matched_ = true;
+        ss      = pm.rm_so;
+        se      = pm.rm_eo;
+        matched = true;
       }
-    return matched_;
+    return matched;
   }
 
   std::string before() const
   {
     requireMatch();
-    return source_.substr(0, static_cast<std::size_t>(ss_));
+    return source.substr(0, static_cast<std::size_t>(ss));
   }
   std::string match()  const
   {
     requireMatch();
-    return source_.substr(static_cast<std::size_t>(ss_), static_cast<std::size_t>(se_ - ss_));
+    return source.substr(static_cast<std::size_t>(ss), static_cast<std::size_t>(se - ss));
   }
   std::string after()  const
   {
     requireMatch();
-    return source_.substr(static_cast<std::size_t>(se_));
+    return source.substr(static_cast<std::size_t>(se));
   }
 
 private:
-  std::string pattern_;
-  std::string source_;
-  regex_t     preg_;
-  bool        matched_;
-  regoff_t    ss_, se_;
+  std::string pattern;
+  std::string source;
+  regex_t     preg;
+  bool        matched;
+  regoff_t    ss, se;
 
   void requireMatch() const
   {
-    if (!matched_)
+    if (!matched)
       throw std::logic_error(
         "RegexSplit: no match -- check setSource()");
   }

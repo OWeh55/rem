@@ -12,6 +12,7 @@
 #include "regexp_after.h"
 #include "regexp_exclude.h"
 #include "trim.h"
+#include "charfilter.h"
 #include "translate.h"
 
 using namespace std;
@@ -32,6 +33,7 @@ bool newline = false;
   opt: l, linewise, void, linewise, Zeilenweise Verarbeitung, false
   opt: i, ignorecase, void, ignorecase, Gross-/Klein-Schreibung ignorieren, false
   opt: e, noempty, void, noempty, keine leeren Resultatzeilen, false
+  opt: n, newline, void, newline, Zeilenvorschub am Ende, false
   opt: v, verbose,  void,   verbose,  Ausführliche Meldungen,  false
   opt: h, help,   usage,   ,    Hilfe
   opt: H, filterhelp, Usage, , Hilfe zu Filtern
@@ -49,8 +51,15 @@ bool newline = false;
 : *  nach regulärem Ausdruck - a:<regexp>
 : *  ohne regulären Ausdruck - x:<regexp>
 : *  beidseitig beschneiden - t:<charset>
+: *  Nur angegebene Zeichen erlauben - c:<charset>
+: *  Angegebene Zeichen nicht erlauben - C:<charset>
 : *  Zeichenersetzung - T:<pairs>
-  AppGen*/
+:  Unterstützte Elemente in <charset>:
+:  - Einzelne Literale:      a  B  3  _
+:  - Bereiche:               a-z  A-Z  0-9  3-9
+:  - POSIX-Klassen:          [:digit:]  [:alpha:]  [:alnum:]  [:space:]
+:  Beispiel:  asdU-X[:digit:]        -> 'a','s','d','U'..'X','0'..'9'
+AppGen*/
 
 /*AppGen:Global*/
 
@@ -147,6 +156,12 @@ int main(int argc, char* argv[])
             case 'T':
               fc.append(new Translate(pattern));
               break;
+            case 'c':
+              fc.append(new CharFilter(pattern, false));
+              break;
+            case 'C':
+              fc.append(new CharFilter(pattern, true));
+              break;
             default:
               throw string("Unknown filter: ") + fs;
             }
@@ -182,7 +197,8 @@ int main(int argc, char* argv[])
           for (unsigned int i = 1; i < result.size(); ++i)
             cout << delimiter << result[i];
         }
-      //      cout << endl;
+      if (linewise || newline)
+        cout << endl;
     }
   catch (const char* msg)
     {
