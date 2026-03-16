@@ -17,9 +17,9 @@ void RegExpMatchMulti::execute(const std::string& src, std::string& dst) const
   dst = "";
   while (re.setSource(source))
     {
-      string s=re.match();
+      string s = re.match();
       if (s.empty())
-	break;
+        break;
       if (!dst.empty())
         dst += del;
       dst += re.match();
