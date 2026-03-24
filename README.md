@@ -30,7 +30,7 @@ Ergebnis: `192.168.99.32`
 | `-l`            | Zeilenweise auswerten                              |
 | `-e`            | Leerzeilen ignorieren                              |
 
-| Filter          | Filter werden nacheinander angewendet              | Ergebnis |
+| Filter          | Filter-Funktion                                    | Ergebnis |
 |-----------------|----------------------------------------------------|----------|
 | `"x:IPv6"`      | Zeilen ignorieren, die „IPv6" enthalten            | "athene.fritz.box has address 192.168.99.32" |
 | `"a:address"`   | Nach dem Wort „address" weiterverarbeiten          | " 192.168.99.32" |
