@@ -35,3 +35,43 @@ Ergebnis: `192.168.99.32`
 | `"x:IPv6"`      | Zeilen ignorieren, die „IPv6" enthalten            | "athene.fritz.box has address 192.168.99.32" |
 | `"a:address"`   | Nach dem Wort „address" weiterverarbeiten          | " 192.168.99.32" |
 | `"m:[0-9\.]+"`  | Die IP als Wort aus Ziffern und Punkt auswählen    | "192.168.99.32" |
+
+---
+
+# rem – Chaining Regular Expressions Made Easy
+
+This project provides a simple tool for working with regular expressions without complexity.
+Instead of writing a single complicated regex, operations can be cascaded using simple expressions.
+
+## Example: Extracting an IPv4 Address from `host` Output
+
+Suppose `host athene` produces the following output:
+
+```
+athene.fritz.box has address 192.168.99.32
+athene.fritz.box has IPv6 address fdde:59c3:ad6c:0:c25e:d9aa:3a01:3ac3
+athene.fritz.box has IPv6 address fdde:59c3:ad6c:0:6d9:f5ff:fecd:da6f
+athene.fritz.box has IPv6 address 2003:e0:6f24:1500:6d9:f5ff:fecd:da6f
+athene.fritz.box has IPv6 address 2003:e0:6f24:1500:373f:cdcb:b4c9:60d6
+```
+
+To extract the IPv4 address, use `rem` to process the output:
+
+```bash
+host athene | rem -e -l "x:IPv6" "a:address" "m:[0-9\.]+"
+```
+
+Result: `192.168.99.32`
+
+## Parameters
+
+| Option          | Meaning                                            |
+|-----------------|----------------------------------------------------|
+| `-l`            | Process input line by line                         |
+| `-e`            | Ignore empty lines                                 |
+
+| Filter          | Filter Function                                    | Result |
+|-----------------|----------------------------------------------------|--------|
+| `"x:IPv6"`      | Ignore lines containing "IPv6"                     | "athene.fritz.box has address 192.168.99.32" |
+| `"a:address"`   | Continue processing after the word "address"       | " 192.168.99.32" |
+| `"m:[0-9\.]+"`  | Select the IP as a token of digits and dots        | "192.168.99.32" |
