@@ -25,10 +25,13 @@ Ergebnis: `192.168.99.32`
 
 ## Parameter
 
-| Parameter       | Bedeutung                                          |
+| Option          | Bedeutung                                          |
 |-----------------|----------------------------------------------------|
 | `-l`            | Zeilenweise auswerten                              |
 | `-e`            | Leerzeilen ignorieren                              |
-| `"x:IPv6"`      | Zeilen ignorieren, die „IPv6" enthalten            |
-| `"a:address"`   | Nach dem Wort „address" weiterverarbeiten          |
-| `"m:[0-9\.]+"`  | Die IP als Wort aus Ziffern und Punkt auswählen    |
+
+| Filter          | Filter werden nacheinander angewendet              | Ergebnis |
+|-----------------|----------------------------------------------------|----------|
+| `"x:IPv6"`      | Zeilen ignorieren, die „IPv6" enthalten            | "athene.fritz.box has address 192.168.99.32" |
+| `"a:address"`   | Nach dem Wort „address" weiterverarbeiten          | " 192.168.99.32" |
+| `"m:[0-9\.]+"`  | Die IP als Wort aus Ziffern und Punkt auswählen    | "192.168.99.32" |
