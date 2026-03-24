@@ -4,7 +4,7 @@
 #include <vector>
 
 #include <sys/types.h>
-#include "regexSplit.h"
+#include "RESplitter.h"
 
 #include "filter.h"
 
@@ -27,7 +27,7 @@ public:
 protected:
   std::string pattern;
   int cflags;
-  mutable RegexSplit re;
+  mutable RESplitter re;
 
 };
 #endif

@@ -24,13 +24,11 @@ public:
 #ifdef DEBUG
         filters[i]->print(std::cout);
         std::cout << std::endl;
-        for (unsigned int k = 0; k < src.size(); ++k)
-          std::cout << "in:" << src[k] << std::endl;
+        std::cout << "in:" << src << std::endl;
 #endif
         filters[i]->execute(src, dst);
 #ifdef DEBUG
-        for (unsigned int k = 0; k < dst.size(); ++k)
-          std::cout << "out:" << dst[k] << std::endl;
+        std::cout << "out:" << dst << std::endl;
 #endif
         src = dst;
       }

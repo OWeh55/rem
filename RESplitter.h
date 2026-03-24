@@ -1,5 +1,5 @@
-#ifndef REGEXSPLIT_H
-#define REGEXSPLIT_H
+#ifndef RESPLITTER_H
+#define RESPLITTER_H
 
 #include <stdexcept>
 #include <string>
@@ -8,55 +8,52 @@
 #include <regex.h>
 
 /**
- * Schlanker C++-Wrapper fuer POSIX Extended Regular Expressions.
+ * C++-Wrapper fuer POSIX Extended Regular Expressions.
  *
  * Ein Muster, ein Treffer. Ergebnis: before() / match() / after().
  *
- * Hinweis: POSIX ERE kennt kein \d oder \w --
- *          stattdessen [[:digit:]], [[:alpha:]] usw. verwenden.
- *
  * Beispiel:
- *   RegexSplit re("[[:digit:]]+");
+ *   RESplitter re("[[:digit:]]+");
  *   if (re.setSource("Preis: 42 Euro"))
  *       std::cout << re.match();  // "42"
  */
-class RegexSplit
+class RESplitter
 {
 public:
-  explicit RegexSplit(const std::string& pattern, int cflags = 0)
-    : pattern(pattern), matched(false), ss(0), se(0)
+  explicit RESplitter(const std::string& pattern, int cflags = 0)
+    : pattern(pattern), source(""), matched(false), ss(0), se(0)
   {
     int rc = regcomp(&preg, pattern.c_str(), cflags | REG_EXTENDED);
     if (rc != 0)
       {
         char errbuf[256];
         regerror(rc, &preg, errbuf, sizeof(errbuf));
-        throw ("RegexSplit: invalid pattern \"" + pattern + "\": " + errbuf);
+        throw ("RESplitter: invalid pattern \"" + pattern + "\": " + errbuf);
       }
   }
 
-  ~RegexSplit()
+  ~RESplitter()
   {
     regfree(&preg);
   }
 
-  RegexSplit(const RegexSplit&)            = delete;
-  RegexSplit& operator=(const RegexSplit&) = delete;
+  RESplitter(const RESplitter&)            = delete;
+  RESplitter& operator=(const RESplitter&) = delete;
 
   // ---------------------------------------------------------------------- //
 
-  /** Sucht das Muster im String. @return true bei Treffer. */
+  /** Sucht das Muster im String. @return true bei match. */
   bool setSource(const std::string& s)
   {
     source  = s;
-    matched = false;
 
     regmatch_t pm;
-    if (regexec(&preg, source.c_str(), 1, &pm, 0) == 0)
+
+    matched = regexec(&preg, source.c_str(), 1, &pm, 0) == 0;
+    if (matched)
       {
         ss      = pm.rm_so;
         se      = pm.rm_eo;
-        matched = true;
       }
     return matched;
   }
@@ -66,11 +63,13 @@ public:
     requireMatch();
     return source.substr(0, static_cast<std::size_t>(ss));
   }
+
   std::string match()  const
   {
     requireMatch();
     return source.substr(static_cast<std::size_t>(ss), static_cast<std::size_t>(se - ss));
   }
+
   std::string after()  const
   {
     requireMatch();
@@ -81,15 +80,14 @@ private:
   std::string pattern;
   std::string source;
   regex_t     preg;
-  bool        matched;
+  bool matched;
   regoff_t    ss, se;
 
   void requireMatch() const
   {
     if (!matched)
-      throw std::logic_error(
-        "RegexSplit: no match -- check setSource()");
+      throw std::logic_error("RESplitter: no match");
   }
 };
 
-#endif // REGEXSPLIT_H
+#endif // RESPLITTER
