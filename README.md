@@ -34,7 +34,7 @@ Ergebnis: `192.168.99.32`
 |-----------------|----------------------------------------------------|----------|
 | `"x:IPv6"`      | Zeilen ignorieren, die „IPv6" enthalten            | "athene.fritz.box has address 192.168.99.32" |
 | `"a:address"`   | Nach dem Wort „address" weiterverarbeiten          | " 192.168.99.32" |
-| `"m:[0-9\.]+"`  | Die IP als Wort aus Ziffern und Punkt auswählen    | "192.168.99.32" |
+| `"m:[0-9\.]+"`  | Regulärer Ausdruck matched IP                      | "192.168.99.32" |
 
 ---
 
