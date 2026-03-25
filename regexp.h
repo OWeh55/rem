@@ -42,7 +42,7 @@ public:
     if (re.setSource(src))
       dst = re.after();
   }
-  
+
 };
 
 class RegExpBefore: public RegExp
@@ -52,9 +52,9 @@ public:
     RegExp('b', pattern, cflagsp) {}
 
   virtual ~RegExpBefore() {}
-  
+
   virtual void execute(const std::string& src,
-                       std::string& dst) const  
+                       std::string& dst) const
   {
     dst = "";
     if (re.setSource(src))
@@ -77,10 +77,10 @@ public:
     dst = "";
     if (!re.setSource(src))
       {
-	dst = src;
+        dst = src;
       }
   }
-  
+
 };
 
 class RegExpMatch: public RegExp
@@ -95,7 +95,7 @@ public:
     if (re.setSource(src))
       dst = re.match();
   }
-  
+
   virtual ~RegExpMatch()
   {
   }
@@ -114,20 +114,20 @@ public:
     dst = "";
     while (re.setSource(source))
       {
-	std::string s = re.match();
-	if (s.empty())
-	  break;
-	if (!dst.empty())
-	  dst += del;
-	dst += re.match();
-	source = re.after(); // weitersuchen
+        std::string s = re.match();
+        if (s.empty())
+          break;
+        if (!dst.empty())
+          dst += del;
+        dst += re.match();
+        source = re.after(); // weitersuchen
       }
   }
-  
+
   virtual ~RegExpMatchMulti()
   {
   }
-  
+
 private:
   std::string del;
 
