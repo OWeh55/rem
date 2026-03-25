@@ -9,16 +9,15 @@ class Filter
 {
 public:
   Filter(const std::string& namep): name(namep) {}
-  virtual ~Filter()
-  {
-  }
+  virtual ~Filter() {}
 
+  // simple output for logging or debugging
   virtual void print(std::ostream& os)
   {
     os << name << std::endl;
   }
 
-  // apply filter to one string and append result to dst
+  // apply filter to one string and store result in dst
   virtual void execute(const std::string& src,
                        std::string& dst) const = 0;
 

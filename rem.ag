@@ -7,10 +7,6 @@
 #include "filtercascade.h"
 #include "filter.h"
 #include "regexp.h"
-#include "regexp_match.h"
-#include "regexp_before.h"
-#include "regexp_after.h"
-#include "regexp_exclude.h"
 #include "trim.h"
 #include "charfilter.h"
 #include "translate.h"
@@ -46,7 +42,6 @@ bool newline = false;
 : Filter:
 : *  reguläre Ausdrücke -  m:<regexp> oder <regexp>
 : *  multiple reguläre Ausdrücke -  M:<regexp>
-:    wenn der Leerstring matched ist der Gesamtausdruck leer
 : *  vor regulärem Ausdruck - b:<regexp>
 : *  nach regulärem Ausdruck - a:<regexp>
 : *  ohne regulären Ausdruck - x:<regexp>
@@ -63,6 +58,9 @@ AppGen*/
 
 /*AppGen:Global*/
 
+// read from file or standard input
+// depending on mode text will be store as one string containing linefeeds
+// or vector of string containing one line each
 void readfile(const string& filename, bool oneLine, vector<string>& data)
 {
   data.clear();
@@ -107,7 +105,7 @@ int main(int argc, char* argv[])
       // check parameters and options
       if (filterStrings.empty())
         {
-          throw string("No filters defined");
+          throw string("No filter defined");
         }
 
       int cflags = 0;
