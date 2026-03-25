@@ -13,7 +13,7 @@ COPT= -O3 -Wall -g --std=c++11
 %:	%.o 
 	g++ $(COPT) -o $* $*.o
 
-OBJECTS=rem.o regexp.o regexp_after.o regexp_before.o regexp_match.o trim.o regexp_exclude.o translate.o filter.o charfilter.o
+OBJECTS=rem.o regexp.o regexp_after.o regexp_before.o regexp_match.o trim.o regexp_exclude.o translate.o filter.o
 
 rem: $(OBJECTS)
 	g++ $(COPT) -o rem $(OBJECTS)
