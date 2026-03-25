@@ -13,7 +13,7 @@ COPT= -O3 -Wall -g --std=c++11
 %:	%.o 
 	g++ $(COPT) -o $* $*.o
 
-OBJECTS=rem.o regexp.o regexp_after.o regexp_before.o regexp_match.o trim.o regexp_exclude.o translate.o filter.o
+OBJECTS=rem.o trim.o translate.o filter.o
 
 rem: $(OBJECTS)
 	g++ $(COPT) -o rem $(OBJECTS)
@@ -21,9 +21,6 @@ rem: $(OBJECTS)
 
 test: rem rtest
 	rtest
-
-regexp_test: regexp_test.cpp regexp.o regexp_before.o regexp_after.o
-	g++ $(COPT) -o regexp_test regexp_test.cpp regexp.o regexp_before.o regexp_after.o
 
 clean_files:
 	rm -f *.o rem *.orig *~

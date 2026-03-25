@@ -28,6 +28,6 @@ protected:
   std::string pattern;
   int cflags;
   mutable RESplitter re;
-
 };
+
 #endif
