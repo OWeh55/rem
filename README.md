@@ -43,8 +43,8 @@ Die Parameter haben folgende Bedeutung (vollständige und ausführliche Erkläru
 |---------|-------------|----------------------------------------------------|
 | `-f <s>`| `--file=<s>`  | Eingabe-Datei |
 |         |             | default:- (Standardeingabe)                       |
-| `-d<s>  | `--delimiter=<s>` | Trenzeichen in Ausgabe bei -l (default="\n") |
-| `-D<s>  | `--subdelimiter=<s>` | Trennzeichen bei mehreren Ergebnissen in der Zeile |
+| `-d<s>`  | `--delimiter=<s>` | Trenzeichen in Ausgabe bei -l (default="\n") |
+| `-D<s>`  | `--subdelimiter=<s>` | Trennzeichen bei mehreren Ergebnissen in der Zeile |
 | `-l`    | `--linewise`            | Zeilenweise auswerten                              |
 | `-e`    | `--noempty`       | Leerzeilen bei der Ausgabe ignorieren (default:false) |
 | `-n`    | `--newline` | Zeilenvorschub am Ende (default:false) |
