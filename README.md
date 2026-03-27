@@ -23,7 +23,7 @@ host athene | rem -e -l "x:IPv6" "a:address" "m:[0-9\.]+"
 
 Ergebnis: `192.168.99.32`
 
-## Parameter
+Die Parameter haben folgende Bedeutung (vollständige und ausführliche Erklärung später)
 
 | Option          | Bedeutung                                          |
 |-----------------|----------------------------------------------------|
@@ -35,6 +35,22 @@ Ergebnis: `192.168.99.32`
 | `"x:IPv6"`      | Zeilen ignorieren, die „IPv6" enthalten            | "athene.fritz.box has address 192.168.99.32" |
 | `"a:address"`   | Nach dem Wort „address" weiterverarbeiten          | " 192.168.99.32" |
 | `"m:[0-9\.]+"`  | Regulärer Ausdruck matched IP                      | "192.168.99.32" |
+
+
+## Optionen und Parameter
+
+| Option  | long Option | Bedeutung                                          |
+|---------|-------------|----------------------------------------------------|
+| `-f <s>`| `--file=<s>`  | Eingabe-Datei |
+|         |             | default:- (Standardeingabe)                       |
+| `-d<s>  | `--delimiter=<s>` | Trenzeichen in Ausgabe bei -l (default="\n") |
+| `-D<s>  | `--subdelimiter=<s>` | Trennzeichen bei mehreren Ergebnissen in der Zeile |
+| `-l`    | `--linewise`            | Zeilenweise auswerten                              |
+| `-e`    | `--noempty`       | Leerzeilen bei der Ausgabe ignorieren (default:false) |
+| `-n`    | `--newline` | Zeilenvorschub am Ende (default:false) |
+| `-v`   | `--verbose` | Ausführliche Meldungen (default:false) |
+| `-h`  | `--help` | Hilfe zum Aufruf |
+| `-H`  | `--filterhelp` | Hilfe zur Syntax der Filter |
 
 ---
 
