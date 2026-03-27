@@ -11,13 +11,5 @@
 *.orig
 depend
 
-# possibly incomplete positive pattern
-#!*.cpp
-#!*.inc
 !Makefile
-#!modules.mk
-#!*.tex
-#!*.fig
-#!mk
-#!*.ag
-#!Doxyfile
+
