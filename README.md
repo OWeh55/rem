@@ -62,6 +62,16 @@ Text nach dem gematchten Ausdruck wird zurückgegeben.
 Text vor dem gematchten Ausdruck wird zurückgegeben.  
 `"Aller Anfang ist schwer" -- "b:An[[:alpha::]]+" --> "Aller "  
 
+**`"M:<regexp>"`**  (multiple match)  
+Matchen mit <regexp>. Alle Vorkommen werden zurückgegeben.  
+`"Aller Anfang ist schwer" -- "M:A[[:alpha::]]+" --> "Aller:Anfang"
+
+**`"x:<regexp>"`** (exclude)  
+Text, indem <regexp> vorkommt wird gelöscht. Die Anwendung ist meist
+nur im zeilenweisen Modus sinnvoll.  
+`"Aller Anfang ist schwer" -- "x:An[[:alpha::]]+" --> ""  
+`"Aller Anfang ist schwer" -- "x:E[[:alpha::]]+" --> "Aller Anfang ist schwer"
+
 ---
 
 # rem – Chaining Regular Expressions Made Easy
