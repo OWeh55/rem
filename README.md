@@ -56,11 +56,11 @@ Matchen mit <regexp>. Der gematchte Ausdruck wird zurückgegeben.
 
 **`"a:<regexp>"`** (after)  
 Text nach dem gematchten Ausdruck wird zurückgegeben.  
-`"Aller Anfang ist schwer" -- "m:An[[:alpha::]]+" --> " ist schwer"  
+`"Aller Anfang ist schwer" -- "a:An[[:alpha::]]+" --> " ist schwer"  
 
 **`"b:<regexp>"`** (before)  
 Text vor dem gematchten Ausdruck wird zurückgegeben.  
-`"Aller Anfang ist schwer" -- "m:An[[:alpha::]]+" --> "Aller "  
+`"Aller Anfang ist schwer" -- "b:An[[:alpha::]]+" --> "Aller "  
 
 ---
 
