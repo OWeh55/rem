@@ -50,6 +50,14 @@ Die Parameter haben folgende Bedeutung (vollständige Erklärung weiter unten):
 | `-H`    | `--filterhelp`           | Hilfe zur Filter-Syntax                                      |
 
 ## Filter
+
+### Filter mit regulären Ausdrücken
+Die Filter arbeiten mit "POSIX Extended Regular Expressions" (<regexp>).
+Beim Aufruf auf der Kommandozeile müssen die Filterbeschreibungen oft
+in Anführungszeichen gesetzt werden, um als **ein** Parameter übergeben
+zu werden. Die einfachen Anführungszeichen verhindern alle Ersetzungen
+durch die Shell. 
+
 **`"<regexp>"`** oder **`"m:<regexp>"`**  (match)  
 Matchen mit <regexp>. Der gematchte Ausdruck wird zurückgegeben.  
 "Aller Anfang ist schwer" -- "m:An[[:alpha::]]+" --> "Anfang"
@@ -71,6 +79,26 @@ Text, indem <regexp> vorkommt wird gelöscht. Die Anwendung ist meist
 nur im zeilenweisen Modus sinnvoll.  
 "Aller Anfang ist schwer" -- "x:An[[:alpha::]]+" --> ""  
 "Aller Anfang ist schwer" -- "x:E[[:alpha::]]+" --> "Aller Anfang ist schwer"  
+
+### Zeichen-Filter
+
+**`"c:<charset>`**  
+Nur die gegebenen Zeichen sind erlaubt und andere werden entfernt.  
+"Aller Anfang ist schwer" -- "c:Aaei" --> "AeAaie"  
+
+**`"C:<charset>`**  
+Die gegebenen Zeichen sind nicht erlaubt und werden entfernt.  
+"Aller Anfang ist schwer" -- "C:Aaei" --> "llr nfng st schwr"  
+
+**`"t:<charset>"`**  (trim)
+Die gegebenen Zeichen werden am Anfang und am Ende entfernt.
+"Aller Anfang ist schwer" -- "t:Arle" --> "r Anfang ist schw"  
+
+**`"T:<pairs>"`** (translate)
+Zeichenersetzung. Die angegebenen Zeiche werden als Paare betrachtet
+und das erste Zeichen wird durch das zweite ersetzt.  
+"Aller Anfang ist schwer" -- "t:AOao" --> "Oller Onfong ist schwer"  
+
 
 ---
 
