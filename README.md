@@ -52,7 +52,7 @@ Die Parameter haben folgende Bedeutung (vollständige Erklärung weiter unten):
 ## Filter
 
 ### Filter mit regulären Ausdrücken
-Die Filter arbeiten mit "POSIX Extended Regular Expressions" (<regexp>).
+Die Filter arbeiten mit "POSIX Extended Regular Expressions" (`<regexp>`).
 Beim Aufruf auf der Kommandozeile müssen die Filterbeschreibungen oft
 in Anführungszeichen gesetzt werden, um als **ein** Parameter übergeben
 zu werden. Die einfachen Anführungszeichen verhindern alle Ersetzungen
@@ -75,7 +75,7 @@ Matchen mit <regexp>. Alle Vorkommen werden zurückgegeben.
 "Aller Anfang ist schwer" -- "M:A[[:alpha::]]+" --> "Aller:Anfang"
 
 **`"x:<regexp>"`** (exclude)  
-Text, indem <regexp> vorkommt wird gelöscht. Die Anwendung ist meist
+Text, indem `<regexp>` vorkommt wird gelöscht. Die Anwendung ist meist
 nur im zeilenweisen Modus sinnvoll.  
 "Aller Anfang ist schwer" -- "x:An[[:alpha::]]+" --> ""  
 "Aller Anfang ist schwer" -- "x:E[[:alpha::]]+" --> "Aller Anfang ist schwer"  
