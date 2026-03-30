@@ -1,5 +1,7 @@
 # rem – Reguläre Ausdrücke einfach verketten
 
+*[English version below](#rem--chaining-regular-expressions-made-easy)*
+
 Dieses Tool ermöglicht die unkomplizierte Verarbeitung von regulären Ausdrücken durch Verkettung
 einfacher Operationen, statt der Anwendung eines einzelnen, komplexen und schwer lesbaren Ausdrucks.
 
@@ -60,50 +62,52 @@ durch die Shell.
 
 **`"<regexp>"`** oder **`"m:<regexp>"`**  (match)  
 Matchen mit <regexp>. Der gematchte Ausdruck wird zurückgegeben.  
-"Aller Anfang ist schwer" -- "m:An[[:alpha::]]+" --> "Anfang"
+"Aller Anfang ist schwer" -- "m:An[[:alpha:]]+" --> "Anfang"
 
 **`"a:<regexp>"`** (after)  
 Text nach dem gematchten Ausdruck wird zurückgegeben.  
-"Aller Anfang ist schwer" -- "a:An[[:alpha::]]+" --> " ist schwer"  
+"Aller Anfang ist schwer" -- "a:An[[:alpha:]]+" --> " ist schwer"
 
 **`"b:<regexp>"`** (before)  
 Text vor dem gematchten Ausdruck wird zurückgegeben.  
-"Aller Anfang ist schwer" -- "b:An[[:alpha::]]+" --> "Aller "  
+"Aller Anfang ist schwer" -- "b:An[[:alpha:]]+" --> "Aller "
 
 **`"M:<regexp>"`**  (multiple match)  
 Matchen mit <regexp>. Alle Vorkommen werden zurückgegeben. Das Trennzeichen
-(hier: `:`) kann mit der Option -D geändert werden.
-"Aller Anfang ist schwer" -- "M:A[[:alpha::]]+" --> "Aller:Anfang"
+(hier: `:`) kann mit der Option -D geändert werden.  
+"Aller Anfang ist schwer" -- "M:A[[:alpha:]]+" --> "Aller:Anfang"
 
 **`"x:<regexp>"`** (exclude)  
-Text, indem `<regexp>` vorkommt wird gelöscht. Die Anwendung ist meist
-nur im zeilenweisen Modus sinnvoll.
-"Aller Anfang ist schwer" -- "x:An[[:alpha::]]+" --> ""  
-"Aller Anfang ist schwer" -- "x:E[[:alpha::]]+" --> "Aller Anfang ist schwer"  
+Text, in dem `<regexp>` vorkommt, wird gelöscht. Die Anwendung ist meist
+nur im zeilenweisen Modus sinnvoll.  
+"Aller Anfang ist schwer" -- "x:An[[:alpha:]]+" --> ""  
+"Aller Anfang ist schwer" -- "x:E[[:alpha:]]+" --> "Aller Anfang ist schwer"  
 
 ### Zeichen-Filter
 
-**`"c:<charset>`**  
+**`"c:<charset>"`**  
 Nur die gegebenen Zeichen sind erlaubt und andere werden entfernt.  
-"Aller Anfang ist schwer" -- "c:Aaei" --> "AeAaie"  
+"Aller Anfang ist schwer" -- "c:Aaei" --> "AeAaie"
 
-**`"C:<charset>`**  
+**`"C:<charset>"`**  
 Die gegebenen Zeichen sind nicht erlaubt und werden entfernt.  
-"Aller Anfang ist schwer" -- "C:Aaei" --> "llr nfng st schwr"  
+"Aller Anfang ist schwer" -- "C:Aaei" --> "llr nfng st schwr"
 
-**`"t:<charset>"`**  (trim)
-Die gegebenen Zeichen werden am Anfang und am Ende entfernt.
-"Aller Anfang ist schwer" -- "t:Arle" --> "r Anfang ist schw"  
+**`"t:<charset>"`**  (trim)  
+Die gegebenen Zeichen werden am Anfang und am Ende entfernt.  
+"Aller Anfang ist schwer" -- "t:Arle" --> "r Anfang ist schw"
 
-**`"T:<pairs>"`** (translate)
+**`"T:<pairs>"`** (translate)  
 Zeichenersetzung. Die angegebenen Zeichen werden als Paare betrachtet
 und das erste Zeichen wird durch das zweite ersetzt.  
-"Aller Anfang ist schwer" -- "t:AOao" --> "Oller Onfong ist schwer"  
+"Aller Anfang ist schwer" -- "T:AOao" --> "Oller Onfong ist schwer"  
 
 
 ---
 
 # rem – Chaining Regular Expressions Made Easy
+
+*[Deutsche Version oben](#rem--reguläre-ausdrücke-einfach-verketten)*
 
 This tool makes it easy to process text with regular expressions by chaining simple operations,
 instead of writing a single, hard-to-read expression.
@@ -153,3 +157,53 @@ The parameters have the following meaning (full explanation below):
 | `-v`    | `--verbose`              | Verbose messages (default: false)                            |
 | `-h`    | `--help`                 | Help on usage                                                |
 | `-H`    | `--filterhelp`           | Help on filter syntax                                        |
+
+## Filters
+
+### Filters Using Regular Expressions
+Filters work with "POSIX Extended Regular Expressions" (`<regexp>`).
+When called from the command line, filter descriptions often need to be
+enclosed in quotes to be passed as **one** argument. Single quotes prevent
+any substitutions by the shell.
+
+**`"<regexp>"`** or **`"m:<regexp>"`**  (match)  
+Match against `<regexp>`. The matched expression is returned.  
+"Aller Anfang ist schwer" -- "m:An[[:alpha:]]+" --> "Anfang"
+
+**`"a:<regexp>"`** (after)  
+Text after the matched expression is returned.  
+"Aller Anfang ist schwer" -- "a:An[[:alpha:]]+" --> " ist schwer"
+
+**`"b:<regexp>"`** (before)  
+Text before the matched expression is returned.  
+"Aller Anfang ist schwer" -- "b:An[[:alpha:]]+" --> "Aller "
+
+**`"M:<regexp>"`**  (multiple match)  
+Match against `<regexp>`. All occurrences are returned. The delimiter
+(here: `:`) can be changed with the `-D` option.  
+"Aller Anfang ist schwer" -- "M:A[[:alpha:]]+" --> "Aller:Anfang"
+
+**`"x:<regexp>"`** (exclude)  
+Lines or text containing `<regexp>` are discarded. This is typically only
+useful in line-by-line mode.  
+"Aller Anfang ist schwer" -- "x:An[[:alpha:]]+" --> ""  
+"Aller Anfang ist schwer" -- "x:E[[:alpha:]]+" --> "Aller Anfang ist schwer"
+
+### Character Filters
+
+**`"c:<charset>"`**  
+Only the given characters are allowed; all others are removed.  
+"Aller Anfang ist schwer" -- "c:Aaei" --> "AeAaie"
+
+**`"C:<charset>"`**  
+The given characters are not allowed and are removed.  
+"Aller Anfang ist schwer" -- "C:Aaei" --> "llr nfng st schwr"
+
+**`"t:<charset>"`**  (trim)  
+The given characters are removed from the beginning and end of the input.  
+"Aller Anfang ist schwer" -- "t:Arle" --> "r Anfang ist schw"
+
+**`"T:<pairs>"`** (translate)  
+Character substitution. The given characters are treated as pairs;
+the first character of each pair is replaced by the second.  
+"Aller Anfang ist schwer" -- "T:AOao" --> "Oller Onfong ist schwer"
