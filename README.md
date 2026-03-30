@@ -49,6 +49,19 @@ Die Parameter haben folgende Bedeutung (vollständige Erklärung weiter unten):
 | `-h`    | `--help`                 | Hilfe zur Verwendung                                         |
 | `-H`    | `--filterhelp`           | Hilfe zur Filter-Syntax                                      |
 
+## Filter
+**`"<regexp>"`** oder **`"m:<regexp>"`**  (match)  
+Matchen mit <regexp>. Der gematchte Ausdruck wird zurückgegeben.  
+`"Aller Anfang ist schwer" -- "m:An[[:alpha::]]+" --> "Anfang"
+
+**`"a:<regexp>"`** (after)  
+Text nach dem gematchten Ausdruck wird zurückgegeben.  
+`"Aller Anfang ist schwer" -- "m:An[[:alpha::]]+" --> " ist schwer"  
+
+**`"b:<regexp>"`** (before)  
+Text vor dem gematchten Ausdruck wird zurückgegeben.  
+`"Aller Anfang ist schwer" -- "m:An[[:alpha::]]+" --> "Aller "  
+
 ---
 
 # rem – Chaining Regular Expressions Made Easy
