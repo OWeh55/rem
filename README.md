@@ -52,25 +52,25 @@ Die Parameter haben folgende Bedeutung (vollständige Erklärung weiter unten):
 ## Filter
 **`"<regexp>"`** oder **`"m:<regexp>"`**  (match)  
 Matchen mit <regexp>. Der gematchte Ausdruck wird zurückgegeben.  
-`"Aller Anfang ist schwer" -- "m:An[[:alpha::]]+" --> "Anfang"
+"Aller Anfang ist schwer" -- "m:An[[:alpha::]]+" --> "Anfang"
 
 **`"a:<regexp>"`** (after)  
 Text nach dem gematchten Ausdruck wird zurückgegeben.  
-`"Aller Anfang ist schwer" -- "a:An[[:alpha::]]+" --> " ist schwer"  
+"Aller Anfang ist schwer" -- "a:An[[:alpha::]]+" --> " ist schwer"  
 
 **`"b:<regexp>"`** (before)  
 Text vor dem gematchten Ausdruck wird zurückgegeben.  
-`"Aller Anfang ist schwer" -- "b:An[[:alpha::]]+" --> "Aller "  
+"Aller Anfang ist schwer" -- "b:An[[:alpha::]]+" --> "Aller "  
 
 **`"M:<regexp>"`**  (multiple match)  
 Matchen mit <regexp>. Alle Vorkommen werden zurückgegeben.  
-`"Aller Anfang ist schwer" -- "M:A[[:alpha::]]+" --> "Aller:Anfang"
+"Aller Anfang ist schwer" -- "M:A[[:alpha::]]+" --> "Aller:Anfang"
 
 **`"x:<regexp>"`** (exclude)  
 Text, indem <regexp> vorkommt wird gelöscht. Die Anwendung ist meist
 nur im zeilenweisen Modus sinnvoll.  
-`"Aller Anfang ist schwer" -- "x:An[[:alpha::]]+" --> ""  
-`"Aller Anfang ist schwer" -- "x:E[[:alpha::]]+" --> "Aller Anfang ist schwer"
+"Aller Anfang ist schwer" -- "x:An[[:alpha::]]+" --> ""  
+"Aller Anfang ist schwer" -- "x:E[[:alpha::]]+" --> "Aller Anfang ist schwer"  
 
 ---
 
