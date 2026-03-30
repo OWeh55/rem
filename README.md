@@ -71,12 +71,13 @@ Text vor dem gematchten Ausdruck wird zurückgegeben.
 "Aller Anfang ist schwer" -- "b:An[[:alpha::]]+" --> "Aller "  
 
 **`"M:<regexp>"`**  (multiple match)  
-Matchen mit <regexp>. Alle Vorkommen werden zurückgegeben.  
+Matchen mit <regexp>. Alle Vorkommen werden zurückgegeben. Das Trennzeichen
+(hier: `:`) kann mit der Option -D geändert werden.
 "Aller Anfang ist schwer" -- "M:A[[:alpha::]]+" --> "Aller:Anfang"
 
 **`"x:<regexp>"`** (exclude)  
 Text, indem `<regexp>` vorkommt wird gelöscht. Die Anwendung ist meist
-nur im zeilenweisen Modus sinnvoll.  
+nur im zeilenweisen Modus sinnvoll.
 "Aller Anfang ist schwer" -- "x:An[[:alpha::]]+" --> ""  
 "Aller Anfang ist schwer" -- "x:E[[:alpha::]]+" --> "Aller Anfang ist schwer"  
 
@@ -95,7 +96,7 @@ Die gegebenen Zeichen werden am Anfang und am Ende entfernt.
 "Aller Anfang ist schwer" -- "t:Arle" --> "r Anfang ist schw"  
 
 **`"T:<pairs>"`** (translate)
-Zeichenersetzung. Die angegebenen Zeiche werden als Paare betrachtet
+Zeichenersetzung. Die angegebenen Zeichen werden als Paare betrachtet
 und das erste Zeichen wird durch das zweite ersetzt.  
 "Aller Anfang ist schwer" -- "t:AOao" --> "Oller Onfong ist schwer"  
 
